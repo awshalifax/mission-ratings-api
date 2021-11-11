@@ -1,0 +1,13 @@
+---
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  labels:
+    app: mission-ratings-api
+  creationTimestamp: null
+  name: mission-ratings-api
+  namespace: rating-app
+spec:
+  lookupPolicy:
+    local: false
+---

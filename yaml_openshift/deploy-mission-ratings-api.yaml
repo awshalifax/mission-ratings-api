@@ -1,0 +1,39 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: mission-ratings-api
+  name: mission-ratings-api
+  namespace: rating-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      deployment: mission-ratings-api
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        deployment: mission-ratings-api
+    spec:
+      containers:
+      - env:
+        - name: strategy
+          value: source
+        - name: MONGODB_URI
+          value: mongodb://ratingsuser:ratingspassword@mongodb:27017/ratingsdb
+        image: image-registry.openshift-image-registry.svc:5000/ratings-app/mission-ratings-api@sha256:2eb448d816cded427ea2cd6e5adacdeb426a2973883c1e09871fd6de1b62cd9c
+        imagePullPolicy: IfNotPresent
+        name: mission-ratings-api
+        ports:
+        - containerPort: 3000
+          protocol: TCP
+        resources: {}
+---
